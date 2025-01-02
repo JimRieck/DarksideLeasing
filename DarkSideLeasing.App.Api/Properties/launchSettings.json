@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "DarkSideLeasing.App.Api": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7009"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "containerRunArguments": "--init",
+      "httpPort": 30824,
+      "useSSL": false
+    }
+  }
+}
