@@ -1,4 +1,12 @@
 services:
+  darkside.leasingcalc.ui:
+    image: ${DOCKER_REGISTRY-}darksideleasingcalcui
+    networks:
+      - darkside
+    build:
+      context: .
+      dockerfile: Darkside.LeasingCalc.UI/Dockerfile
+
   darksideleasing.app.api:
     image: ${DOCKER_REGISTRY-}darksideleasingappapi
     networks:
@@ -19,6 +27,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=myPassword123
 
+
 volumes:
   darkside-leasing-volume:
     external: true
@@ -26,5 +35,3 @@ volumes:
 networks:
     darkside:
       driver: bridge
-  
-

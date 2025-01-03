@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "darksideleasing.app.api": "StartWithoutDebugging",
-        "darkside.leasingcalc.db": "StartWithoutDebugging"
+        "darkside.leasingcalc.db": "StartWithoutDebugging",
+        "darkside.leasingcalc.ui": "StartDebugging"
       }
     }
   }
