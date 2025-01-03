@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: Darkside.LeasingCalc.UI/Dockerfile
+    container_name: Darkside_Leasing_App_UI
 
   darksideleasing.app.api:
     image: ${DOCKER_REGISTRY-}darksideleasingappapi
@@ -14,6 +15,7 @@ services:
     build:
       context: DarkSideLeasing.App.Api
       dockerfile: Dockerfile
+    container_name: Darkside_Leasing_App_API
 
   darkside.leasingcalc.db:
      image: mcr.microsoft.com/mssql/server:2022-latest
@@ -26,7 +28,7 @@ services:
      environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=myPassword123
-
+     container_name: Darkside_Leasing_App_DB
 
   darksideleasing.app.queue:
     image: ${DOCKER_REGISTRY-}darksideleasingappqueue
@@ -35,6 +37,7 @@ services:
     build:
       context: .
       dockerfile: DarksideLeasing.App.Queue/Dockerfile
+    container_name: Darkside_Leasing_App_The_Queue
 
 volumes:
   darkside-leasing-volume:
