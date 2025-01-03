@@ -6,7 +6,8 @@
       "serviceActions": {
         "darksideleasing.app.api": "StartWithoutDebugging",
         "darkside.leasingcalc.db": "StartWithoutDebugging",
-        "darkside.leasingcalc.ui": "StartDebugging"
+        "darkside.leasingcalc.ui": "StartDebugging",
+        "darksideleasing.app.queue": "StartDebugging"
       }
     }
   }

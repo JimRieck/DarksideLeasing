@@ -28,6 +28,14 @@ services:
       - SA_PASSWORD=myPassword123
 
 
+  darksideleasing.app.queue:
+    image: ${DOCKER_REGISTRY-}darksideleasingappqueue
+    networks:
+      - darkside
+    build:
+      context: .
+      dockerfile: DarksideLeasing.App.Queue/Dockerfile
+
 volumes:
   darkside-leasing-volume:
     external: true

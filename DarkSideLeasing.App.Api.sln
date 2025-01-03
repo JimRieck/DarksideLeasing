@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darkside.LeasingCalc.UI", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5187C156-6D9F-4B63-99B5-B69FE2D0E741}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarksideLeasing.App.Queue", "DarksideLeasing.App.Queue\DarksideLeasing.App.Queue.csproj", "{6BD64612-ECD5-4E1D-855D-7DAC89283C11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

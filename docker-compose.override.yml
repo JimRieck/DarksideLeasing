@@ -13,3 +13,7 @@ services:
   darksideleasing.app.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+
+  darksideleasing.app.queue:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
