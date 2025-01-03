@@ -1,0 +1,30 @@
+services:
+  darksideleasing.app.api:
+    image: ${DOCKER_REGISTRY-}darksideleasingappapi
+    networks:
+      - darkside
+    build:
+      context: DarkSideLeasing.App.Api
+      dockerfile: Dockerfile
+
+  darkside.leasingcalc.db:
+     image: mcr.microsoft.com/mssql/server:2022-latest
+     networks:
+      - darkside
+     ports:
+      - 3629:1433
+     volumes:
+      - darkside-leasing-volume:/var/opt/mssql/darksideleasing
+     environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=myPassword123
+
+volumes:
+  darkside-leasing-volume:
+    external: true
+
+networks:
+    darkside:
+      driver: bridge
+  
+
