@@ -31,6 +31,7 @@ jobs:
       - name: Plan Terraform
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_LOG: DEBUG
         working-directory: ./IAC
         run: terraform plan -var \"subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}\"
 
