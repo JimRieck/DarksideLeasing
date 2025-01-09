@@ -29,7 +29,7 @@ resource "azurerm_service_plan" "ui" {
 }
 
 # App Service for Blazor Server UI
-resource "azurerm_app_service" "ui" {
+resource "azurerm_windows_web_app" "ui" {
   name                = "darksideleasing-dev-ui"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
