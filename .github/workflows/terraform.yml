@@ -25,14 +25,17 @@ jobs:
       - name: Initialize Terraform
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        working-directory: ./IAC
         run: terraform init
 
       - name: Plan Terraform
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        working-directory: ./IAC
         run: terraform plan -var \"subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}\"
 
       - name: Apply Terraform
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        working-directory: ./IAC
         run: terraform apply -auto-approve -var \"subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}\"
