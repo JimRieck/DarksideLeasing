@@ -5,7 +5,9 @@ variable "subscription_id" {
 
 provider "azurerm" {
   features {}
+  subscription_id = var.subscription_id
 }
+
 
 # Resource Group
 resource "azurerm_resource_group" "main" {
@@ -107,6 +109,3 @@ resource "azurerm_function_app" "durable_queue" {
     environment = "dev"
   }
 }
-
-
-
