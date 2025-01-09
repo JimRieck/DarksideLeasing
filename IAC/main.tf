@@ -18,9 +18,11 @@ resource "azurerm_service_plan" "ui" {
   name                = "darksideleasing-dev-ui-plan"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  sku {
-    tier = "Basic"
-    size = "B1"
+  os_type             = "Windows"
+  sku_name            = "B1"
+
+  tags = {
+    environment = "dev"
   }
 }
 
@@ -44,6 +46,7 @@ resource "azurerm_mssql_server" "db" {
   resource_group_name          = azurerm_resource_group.main.name
   administrator_login          = "sqladmin"
   administrator_login_password = "P@ssw0rd1234!"
+  version                      = "12.0"
 
   tags = {
     environment = "dev"
@@ -107,4 +110,5 @@ resource "azurerm_function_app" "durable_queue" {
     environment = "dev"
   }
 }
+
 
