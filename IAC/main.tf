@@ -8,7 +8,6 @@ provider "azurerm" {
   subscription_id = var.subscription_id
 }
 
-
 # Resource Group
 resource "azurerm_resource_group" "main" {
   name     = "darksideleasing-dev-eastus"
@@ -33,7 +32,7 @@ resource "azurerm_windows_web_app" "ui" {
   name                = "darksideleasing-dev-ui"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  app_service_plan_id = azurerm_service_plan.ui.id
+  service_plan_id     = azurerm_service_plan.ui.id  # Updated
 
   site_config {
     always_on = true
@@ -87,7 +86,7 @@ resource "azurerm_function_app" "http_api" {
   name                       = "darksideleasing-dev-http-api"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
-  app_service_plan_id        = azurerm_service_plan.ui.id
+  service_plan_id            = azurerm_service_plan.ui.id  # Updated
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
@@ -101,7 +100,7 @@ resource "azurerm_function_app" "durable_queue" {
   name                       = "darksideleasing-dev-durable-queue"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
-  app_service_plan_id        = azurerm_service_plan.ui.id
+  service_plan_id            = azurerm_service_plan.ui.id  # Updated
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
