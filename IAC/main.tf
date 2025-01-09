@@ -34,8 +34,7 @@ resource "azurerm_app_service" "ui" {
   app_service_plan_id = azurerm_service_plan.ui.id
 
   site_config {
-    dotnet_framework_version = "v8.0"  # Updated for .NET 8
-    always_on                = true
+    always_on = true
   }
 
   tags = {
@@ -89,7 +88,6 @@ resource "azurerm_function_app" "http_api" {
   app_service_plan_id        = azurerm_service_plan.ui.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
-  os_type                    = "Windows"
 
   tags = {
     environment = "dev"
@@ -104,11 +102,11 @@ resource "azurerm_function_app" "durable_queue" {
   app_service_plan_id        = azurerm_service_plan.ui.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
-  os_type                    = "Windows"
 
   tags = {
     environment = "dev"
   }
 }
+
 
 
