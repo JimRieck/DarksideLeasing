@@ -1,4 +1,7 @@
-variable "subscription_id" {}
+variable "subscription_id" {
+  description = "The subscription ID for Azure resources"
+  type        = string
+}
 
 provider "azurerm" {
   features {}
