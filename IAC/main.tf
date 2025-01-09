@@ -13,8 +13,8 @@ resource "azurerm_resource_group" "main" {
   location = "East US"
 }
 
-# App Service Plan for Blazor Server UI
-resource "azurerm_app_service_plan" "ui" {
+# App Service Plan
+resource "azurerm_service_plan" "ui" {
   name                = "darksideleasing-dev-ui-plan"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -29,7 +29,7 @@ resource "azurerm_app_service" "ui" {
   name                = "darksideleasing-dev-ui"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  app_service_plan_id = azurerm_app_service_plan.ui.id
+  app_service_plan_id = azurerm_service_plan.ui.id
 
   site_config {
     dotnet_framework_version = "v6.0"
@@ -38,7 +38,7 @@ resource "azurerm_app_service" "ui" {
 }
 
 # Serverless SQL Server
-resource "azurerm_sql_server" "db" {
+resource "azurerm_mssql_server" "db" {
   name                         = "darksideleasing-dev-sql"
   location                     = azurerm_resource_group.main.location
   resource_group_name          = azurerm_resource_group.main.name
@@ -51,11 +51,11 @@ resource "azurerm_sql_server" "db" {
 }
 
 # Serverless SQL Database
-resource "azurerm_sql_database" "db" {
+resource "azurerm_mssql_database" "db" {
   name                = "darksideleasing-dev-db"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  server_name         = azurerm_sql_server.db.name
+  server_id           = azurerm_mssql_server.db.id
   sku_name            = "GP_S_Gen5_2"
 
   tags = {
@@ -76,32 +76,32 @@ resource "azurerm_storage_account" "functions" {
   }
 }
 
-# HTTP Triggered Azure Function App
+# HTTP Triggered Azure Function
 resource "azurerm_function_app" "http_api" {
   name                       = "darksideleasing-dev-http-api"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
-  app_service_plan_id        = azurerm_app_service_plan.ui.id
+  app_service_plan_id        = azurerm_service_plan.ui.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
   os_type                    = "Windows"
-  runtime_stack              = "dotnet"
+  functions_version          = "~4"
 
   tags = {
     environment = "dev"
   }
 }
 
-# Durable Azure Function App
+# Durable Azure Function
 resource "azurerm_function_app" "durable_queue" {
   name                       = "darksideleasing-dev-durable-queue"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
-  app_service_plan_id        = azurerm_app_service_plan.ui.id
+  app_service_plan_id        = azurerm_service_plan.ui.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
   os_type                    = "Windows"
-  runtime_stack              = "dotnet"
+  functions_version          = "~4"
 
   tags = {
     environment = "dev"
