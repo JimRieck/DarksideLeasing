@@ -40,4 +40,5 @@ jobs:
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         working-directory: ./IAC
-        run: terraform apply -auto-approve -var \"subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}\"
+        run: terraform apply -auto-approve -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+
