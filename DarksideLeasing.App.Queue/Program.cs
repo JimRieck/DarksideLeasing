@@ -27,7 +27,14 @@ var host = new HostBuilder()
         serviceCollection.AddTransient<IValidationService, ValidationService>();
         serviceCollection.AddDbContext<DbContext, DarksideLeasingCalcDbContext>(options =>
         {
-            options.UseSqlServer(settings.SqlDbConnectionString);
+            options.UseSqlServer(settings.SqlDbConnectionString, sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null
+                );
+            });
         }, ServiceLifetime.Transient, ServiceLifetime.Transient);
         serviceCollection.Configure<KestrelServerOptions>(options =>
         {

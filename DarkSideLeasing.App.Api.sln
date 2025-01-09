@@ -13,6 +13,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarksideLeasing.App.Queue", "DarksideLeasing.App.Queue\DarksideLeasing.App.Queue.csproj", "{6BD64612-ECD5-4E1D-855D-7DAC89283C11}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IAC", "IAC", "{C1F487DE-145E-4306-BFB6-946E5CD0F09D}"
+	ProjectSection(SolutionItems) = preProject
+		resource Group.tf = resource Group.tf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
