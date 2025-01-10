@@ -52,6 +52,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: Show folder structure
+        run: |
+          echo "Displaying folder structure for folder 'your-folder-name'"
+          tree ${{env.DOTNET_ROOT}}
+
       - name: Build with dotnet
         run: dotnet build --configuration Release ${{env.DOTNET_ROOT}}/Darkside.LeasingCalc.UI/Darkside.LeasingCalc.UI.csproj
 
