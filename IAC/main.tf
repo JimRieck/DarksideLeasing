@@ -20,12 +20,13 @@ resource "azurerm_service_plan" "ui" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Windows"
-  sku_name            = "B1"
+  sku_name            = "F1"  # Change to a different SKU, e.g., Free tier
 
   tags = {
     environment = "dev"
   }
 }
+
 
 # App Service for Blazor Server UI
 resource "azurerm_windows_web_app" "ui" {
@@ -64,11 +65,13 @@ resource "azurerm_mssql_database" "db" {
   sku_name            = "GP_S_Gen5_2"  # General Purpose, Gen5 with 2 vCores
   max_size_gb         = 10             # Set a valid maximum size (e.g., 10 GB)
   min_capacity        = 2  
+  auto_pause_delay_in_minutes = 60     # Set a valid auto pause delay value
 
   tags = {
     environment = "dev"
   }
 }
+
 
 # Storage Account for Functions
 resource "azurerm_storage_account" "functions" {
