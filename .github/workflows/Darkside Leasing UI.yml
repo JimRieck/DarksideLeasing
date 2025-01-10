@@ -51,11 +51,14 @@ jobs:
     - name: Publish
       run: dotnet publish ./Darkside.LeasingCalc.UI/Darkside.LeasingCalc.UI.csproj --configuration Release --output ./publish
 
+    - name: Zip published output
+      run: zip -r publish.zip ./publish
+
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
           name: .net-app
-          path: ${{ github.workspace }}/publish
+          path: publish.zip
 
     - name: Show folder structure
       run: |
@@ -88,5 +91,5 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ github.workspace }}/publish
+          package: ${{ github.workspace }}/publish.zip
           slot-name: production
