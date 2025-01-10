@@ -20,7 +20,7 @@ resource "azurerm_service_plan" "ui" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Windows"
-  sku_name            = "F1"  # Change to a different SKU, e.g., Free tier
+  sku_name            = "B1"  # Change to a different SKU, e.g., Free tier
 
   tags = {
     environment = "dev"
