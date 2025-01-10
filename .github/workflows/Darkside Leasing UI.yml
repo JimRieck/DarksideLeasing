@@ -60,7 +60,7 @@ jobs:
     - name: Show folder structure
       run: |
         echo "Displaying folder structure for folder 'your-folder-name'"
-        tree your-folder-name
+        tree ${{ github.workspace }}/publish
 
   deploy:
     permissions:
