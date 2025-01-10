@@ -21,7 +21,7 @@ name: DarkSide Leasing UI
 
 env:
   AZURE_WEBAPP_NAME: darksideleasing-dev-ui    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: './darksideleasing/Darkside.LeasingCalc.UI'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: './Darkside.LeasingCalc.UI'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '8'                 # set this to the .NET Core version to use
 
 on:
@@ -52,13 +52,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Show folder structure
-        run: |
-          echo "Displaying folder structure for folder 'your-folder-name'"
-          tree ${{env.AZURE_WEBAPP_PACKAGE_PATH }}
-
       - name: Build with dotnet
-        run: dotnet build --configuration Release ${{env.DOTNET_ROOT}}/Darkside.LeasingCalc.UI/Darkside.LeasingCalc.UI.csproj
+        run: dotnet build --configuration Release 
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
