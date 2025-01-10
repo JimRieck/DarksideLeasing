@@ -59,14 +59,17 @@ resource "azurerm_mssql_server" "db" {
 
 # Serverless SQL Database
 resource "azurerm_mssql_database" "db" {
-  name      = "darksideleasing-dev-db"
-  server_id = azurerm_mssql_server.db.id
-  sku_name  = "GP_S_Gen5_2"
+  name                        = "darksideleasing-dev-db"
+  server_id                   = azurerm_mssql_server.db.id
+  sku_name                    = "GP_S_Gen5_2"
+  requested_service_objective_name = "GP_S_Gen5"  # Specify a valid service objective
+  max_size_gb                 = 10               # Set a valid maximum size (e.g., 10 GB)
 
   tags = {
     environment = "dev"
   }
 }
+
 
 # Storage Account for Functions
 resource "azurerm_storage_account" "functions" {
