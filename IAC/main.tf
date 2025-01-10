@@ -11,7 +11,7 @@ provider "azurerm" {
 # Resource Group
 resource "azurerm_resource_group" "main" {
   name     = "darksideleasing-dev-eastus"
-  location = "East US"
+  location = "Australia Central"
 }
 
 # App Service Plan
