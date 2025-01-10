@@ -10,7 +10,7 @@ provider "azurerm" {
 
 # Resource Group
 resource "azurerm_resource_group" "main" {
-  name     = "darksideleasing-dev-eastus"
+  name     = "darksideleasing-dev-AUSCEN"
   location = "Australia Central"
 }
 
