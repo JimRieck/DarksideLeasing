@@ -63,6 +63,7 @@ resource "azurerm_mssql_database" "db" {
   server_id           = azurerm_mssql_server.db.id
   sku_name            = "GP_S_Gen5_2"  # General Purpose, Gen5 with 2 vCores
   max_size_gb         = 10             # Set a valid maximum size (e.g., 10 GB)
+  min_capacity        = 2  
 
   tags = {
     environment = "dev"
