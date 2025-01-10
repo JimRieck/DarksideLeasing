@@ -57,6 +57,11 @@ jobs:
           name: .net-app
           path: ${{ github.workspace }}/publish
 
+    - name: Show folder structure
+      run: |
+        echo "Displaying folder structure for folder 'your-folder-name'"
+        tree your-folder-name
+
   deploy:
     permissions:
       contents: none
