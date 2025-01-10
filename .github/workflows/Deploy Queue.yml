@@ -19,8 +19,8 @@
 name: Darkside Leasing Queue Deploy
 
 on:
-  push:
-    branches: ["main"]
+  # push:
+  #   branches: ["main"]
   workflow_dispatch: # Allows manual triggering
 
 env:
