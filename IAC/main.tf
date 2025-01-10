@@ -44,13 +44,15 @@ resource "azurerm_windows_web_app" "ui" {
 }
 
 # Serverless SQL Server
-resource "azurerm_mssql_server" "db" {
-  name                         = "darksideleasing-dev-sql"
-  location                     = azurerm_resource_group.main.location
-  resource_group_name          = azurerm_resource_group.main.name
-  administrator_login          = "sqladmin"
-  administrator_login_password = "P@ssw0rd1234!"
-  version                      = "12.0"
+resource "azurerm_mssql_database" "db" {
+  name                = "darksideleasing-dev-db"
+  server_id           = azurerm_mssql_server.db.id
+  sku {
+    name   = "GP_S_Gen5_2"  # Service objective with 2 vCores
+    tier   = "GeneralPurpose"
+    family = "Gen5"
+  }
+  max_size_gb         = 10  # Set a valid maximum size (e.g., 10 GB)
 
   tags = {
     environment = "dev"
