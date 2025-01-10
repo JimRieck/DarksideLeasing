@@ -61,12 +61,8 @@ resource "azurerm_mssql_server" "db" {
 resource "azurerm_mssql_database" "db" {
   name                = "darksideleasing-dev-db"
   server_id           = azurerm_mssql_server.db.id
-  sku {
-    name   = "GP_S_Gen5_2"  # Service objective with 2 vCores
-    tier   = "GeneralPurpose"
-    family = "Gen5"
-  }
-  max_size_gb         = 10  # Set a valid maximum size (e.g., 10 GB)
+  sku_name            = "GP_S_Gen5_2"  # General Purpose, Gen5 with 2 vCores
+  max_size_gb         = 10             # Set a valid maximum size (e.g., 10 GB)
 
   tags = {
     environment = "dev"
