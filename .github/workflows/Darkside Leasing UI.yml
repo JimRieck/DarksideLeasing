@@ -55,7 +55,7 @@ jobs:
       - name: Show folder structure
         run: |
           echo "Displaying folder structure for folder 'your-folder-name'"
-          tree ${{env.DOTNET_ROOT}}
+          tree ${{env.AZURE_WEBAPP_PACKAGE_PATH }}
 
       - name: Build with dotnet
         run: dotnet build --configuration Release ${{env.DOTNET_ROOT}}/Darkside.LeasingCalc.UI/Darkside.LeasingCalc.UI.csproj
