@@ -14,35 +14,6 @@ resource "azurerm_resource_group" "main" {
   location = "East US 2"  # Use a global region with high availability
 }
 
-# App Service Plan (Free Tier)
-#resource "azurerm_service_plan" "ui" {
-#  name                = "darksideleasing-demo-plan"
-#  location            = azurerm_resource_group.main.location
-#  resource_group_name = azurerm_resource_group.main.name
-#  os_type             = "Windows"
-#  sku_name            = "F1"  # Free tier for demo purposes
-#
-#  tags = {
-#    environment = "demo"
-#  }
-#}
-
-## App Service for Blazor Server UI
-#resource "azurerm_windows_web_app" "ui" {
-#  name                = "darksideleasing-demo-ui"
-#  location            = azurerm_resource_group.main.location
-#  resource_group_name = azurerm_resource_group.main.name
-#  service_plan_id     = azurerm_service_plan.ui.id
-#
-#  site_config {
-#    always_on = false  # Disable Always-On for Free tier compatibility
-#  }
-#
-#  tags = {
-#    environment = "demo"
-#  }
-#}
-
 # SQL Server (Lowest-Cost Configurations)
 resource "azurerm_mssql_server" "db" {
   name                         = "darksideleasing-demo-sql"
@@ -82,11 +53,29 @@ resource "azurerm_storage_account" "functions" {
   }
 }
 
-# Shared App Service Plan for Azure Functions
+# Consumption Plan for Azure Functions
+resource "azurerm_app_service_plan" "functions" {
+  name                = "darksideleasing-demo-functions-plan"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  kind                = "FunctionApp"
+  reserved            = true
+  sku {
+    tier = "Dynamic"
+    size = "Y1"
+  }
+
+  tags = {
+    environment = "demo"
+  }
+}
+
+# Azure Function App (HTTP API)
 resource "azurerm_function_app" "http_api" {
   name                       = "darksideleasing-demo-http"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
+  app_service_plan_id        = azurerm_app_service_plan.functions.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
@@ -99,10 +88,12 @@ resource "azurerm_function_app" "http_api" {
   }
 }
 
+# Azure Function App (Durable Queue)
 resource "azurerm_function_app" "durable_queue" {
   name                       = "darksideleasing-demo-durable"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
+  app_service_plan_id        = azurerm_app_service_plan.functions.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
