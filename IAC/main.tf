@@ -11,7 +11,7 @@ provider "azurerm" {
 # Resource Group
 resource "azurerm_resource_group" "main" {
   name     = "darksideleasing-demo"
-  location = "East US"  # Use a global region with high availability
+  location = "East US 2"  # Use a global region with high availability
 }
 
 # App Service Plan (Free Tier)
