@@ -6,18 +6,7 @@ on:
 
 jobs:
   deploy_iac:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # - name: Log in to Azure
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy Infrastructure as Code
-        uses: ./.github/workflows/deploy_iac.yml
+    uses: ./.github/workflows/deploy_iac.yml
 
   deploy_api:
     needs: deploy_iac
@@ -26,13 +15,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Log in to Azure
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy API
-        uses: ./.github/workflows/deploy_api.yml
+        run: echo "Deploying API..." # Replace with actual deployment steps
 
   deploy_queue:
     needs: deploy_iac
@@ -41,10 +30,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Log in to Azure
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy Queue
-        uses: ./.github/workflows/deploy_queue.yml
+        run: echo "Deploying Queue..." # Replace with actual deployment steps
