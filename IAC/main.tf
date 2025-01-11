@@ -10,7 +10,7 @@ provider "azurerm" {
 
 # Resource Group
 resource "azurerm_resource_group" "main" {
-  name     = "darksideleasing-demo"
+  name     = "darksideleasing-demo-EST2"
   location = "East US 2"  # Use a global region with high availability
 }
 
