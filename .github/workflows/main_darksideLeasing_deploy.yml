@@ -1,0 +1,23 @@
+# .github/workflows/main_workflow.yml
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_iac:
+    uses: ./.github/workflows/deploy_iac.yml
+
+  deploy_ui:
+    needs: deploy_iac  
+    uses: ./.github/workflows/deploy_ui.yml
+
+  deploy_api:
+    needs: deploy_iac  
+    uses: ./.github/workflows/deploy_api.yml
+
+  deploy_queue:
+    needs: deploy_iac  
+    uses: ./.github/workflows/deploy_queue.yml

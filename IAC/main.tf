@@ -3,6 +3,12 @@ variable "subscription_id" {
   type        = string
 }
 
+variable "create_resources" {
+  description = "Flag to determine if the resources should be created"
+  type        = bool
+  default     = true
+}
+
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
@@ -10,12 +16,14 @@ provider "azurerm" {
 
 # Resource Group
 resource "azurerm_resource_group" "main" {
+  count    = var.create_resources ? 1 : 0
   name     = "darksideleasing-dev-AUSCEN"
   location = "Australia Central"
 }
 
 # App Service Plan
 resource "azurerm_service_plan" "ui" {
+  count    = var.create_resources ? 1 : 0
   name                = "darksideleasing-dev-ui-plan"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -30,6 +38,7 @@ resource "azurerm_service_plan" "ui" {
 
 # App Service for Blazor Server UI
 resource "azurerm_windows_web_app" "ui" {
+  count    = var.create_resources ? 1 : 0
   name                = "darksideleasing-dev-ui"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -46,6 +55,7 @@ resource "azurerm_windows_web_app" "ui" {
 
 # Serverless SQL Server
 resource "azurerm_mssql_server" "db" {
+  count    = var.create_resources ? 1 : 0
   name                         = "darksideleasing-dev-sql"
   location                     = azurerm_resource_group.main.location
   resource_group_name          = azurerm_resource_group.main.name
@@ -60,6 +70,7 @@ resource "azurerm_mssql_server" "db" {
 
 # Serverless SQL Database
 resource "azurerm_mssql_database" "db" {
+  count    = var.create_resources ? 1 : 0
   name                = "darksideleasing-dev-db"
   server_id           = azurerm_mssql_server.db.id
   sku_name            = "GP_S_Gen5_2"  # General Purpose, Gen5 with 2 vCores
@@ -75,6 +86,7 @@ resource "azurerm_mssql_database" "db" {
 
 # Storage Account for Functions
 resource "azurerm_storage_account" "functions" {
+  count                    = var.create_resources ? 1 : 0
   name                     = "darksideleasingdevfuncs"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
@@ -88,6 +100,7 @@ resource "azurerm_storage_account" "functions" {
 
 # HTTP Triggered Azure Function
 resource "azurerm_function_app" "http_api" {
+  count                      = var.create_resources ? 1 : 0
   name                       = "darksideleasing-dev-http-api"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
@@ -102,6 +115,7 @@ resource "azurerm_function_app" "http_api" {
 
 # Durable Azure Function
 resource "azurerm_function_app" "durable_queue" {
+  count                      = var.create_resources ? 1 : 0
   name                       = "darksideleasing-dev-durable-queue"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name

@@ -22,6 +22,7 @@ on:
   # push:
   #   branches: ["main"]
   workflow_dispatch: # Allows manual triggering
+  workflow_call:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'darksideleasing-dev-durable-queue'   # set this to your function app name on Azure
