@@ -16,9 +16,19 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Azure
+        id: azure_login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Debug Azure Login
+        if: failure()
+        run: |
+          echo "Azure login failed"
+          echo "Credentials: ${{ secrets.AZURE_CREDENTIALS }}"
+
+      - name: Verify Azure Login
+        run: az account show
 
       - name: Deploy API
         run: echo "Deploying API..." # Replace with actual deployment steps
@@ -31,9 +41,19 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Log in to Azure
+        id: azure_login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Debug Azure Login
+        if: failure()
+        run: |
+          echo "Azure login failed"
+          echo "Credentials: ${{ secrets.AZURE_CREDENTIALS }}"
+
+      - name: Verify Azure Login
+        run: az account show
 
       - name: Deploy Queue
         run: echo "Deploying Queue..." # Replace with actual deployment steps
