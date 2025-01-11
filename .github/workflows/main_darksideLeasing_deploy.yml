@@ -2,22 +2,22 @@
 name: Main Workflow
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 jobs:
   login_to_azure:
-    uses: ./.github/workflows/login_test.yml
+    uses: ./.github/workflows/login_azure.yml
 
   deploy_iac:
     needs: login_to_azure
     uses: ./.github/workflows/deploy_iac.yml
 
-  deploy_ui:
-    needs: deploy_iac  
-    uses: ./.github/workflows/deploy_ui.yml
+  # deploy_ui:
+  #   needs: deploy_iac  
+  #   uses: ./.github/workflows/deploy_ui.yml
 
   deploy_api:
     needs: deploy_iac  
