@@ -15,33 +15,33 @@ resource "azurerm_resource_group" "main" {
 }
 
 # App Service Plan (Free Tier)
-resource "azurerm_service_plan" "ui" {
-  name                = "darksideleasing-demo-plan"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-  os_type             = "Windows"
-  sku_name            = "F1"  # Free tier for demo purposes
+#resource "azurerm_service_plan" "ui" {
+#  name                = "darksideleasing-demo-plan"
+#  location            = azurerm_resource_group.main.location
+#  resource_group_name = azurerm_resource_group.main.name
+#  os_type             = "Windows"
+#  sku_name            = "F1"  # Free tier for demo purposes
+#
+#  tags = {
+#    environment = "demo"
+#  }
+#}
 
-  tags = {
-    environment = "demo"
-  }
-}
-
-# App Service for Blazor Server UI
-resource "azurerm_windows_web_app" "ui" {
-  name                = "darksideleasing-demo-ui"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-  service_plan_id     = azurerm_service_plan.ui.id
-
-  site_config {
-    always_on = false  # Disable Always-On for Free tier compatibility
-  }
-
-  tags = {
-    environment = "demo"
-  }
-}
+## App Service for Blazor Server UI
+#resource "azurerm_windows_web_app" "ui" {
+#  name                = "darksideleasing-demo-ui"
+#  location            = azurerm_resource_group.main.location
+#  resource_group_name = azurerm_resource_group.main.name
+#  service_plan_id     = azurerm_service_plan.ui.id
+#
+#  site_config {
+#    always_on = false  # Disable Always-On for Free tier compatibility
+#  }
+#
+#  tags = {
+#    environment = "demo"
+#  }
+#}
 
 # SQL Server (Lowest-Cost Configurations)
 resource "azurerm_mssql_server" "db" {
