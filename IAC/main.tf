@@ -87,12 +87,15 @@ resource "azurerm_function_app" "http_api" {
   name                       = "darksideleasing-demo-http"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
-  #app_service_plan_id        = azurerm_service_plan.ui.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
   tags = {
     environment = "demo"
+  }
+
+  app_settings = {
+    FUNCTIONS_WORKER_RUNTIME = "dotnet"
   }
 }
 
@@ -100,11 +103,14 @@ resource "azurerm_function_app" "durable_queue" {
   name                       = "darksideleasing-demo-durable"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
-  #app_service_plan_id        = azurerm_service_plan.ui.id
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
   tags = {
     environment = "demo"
+  }
+
+  app_settings = {
+    FUNCTIONS_WORKER_RUNTIME = "dotnet"
   }
 }
