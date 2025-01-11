@@ -50,6 +50,7 @@ resource "azurerm_mssql_server" "db" {
   resource_group_name          = azurerm_resource_group.main.name
   administrator_login          = "sqladmin"
   administrator_login_password = "P@ssw0rd1234!"
+  version                      = "12.0"  # SQL Server 2014  
 
   tags = {
     environment = "demo"
