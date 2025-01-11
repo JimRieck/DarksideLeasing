@@ -8,8 +8,8 @@ jobs:
   deploy_iac:
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       # - name: Log in to Azure
       #   uses: azure/login@v1
@@ -23,8 +23,8 @@ jobs:
     needs: deploy_iac
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       # - name: Log in to Azure
       #   uses: azure/login@v1
@@ -38,8 +38,8 @@ jobs:
     needs: deploy_iac
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       # - name: Log in to Azure
       #   uses: azure/login@v1
