@@ -25,7 +25,7 @@ on:
   workflow_call:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: 'darksideleasing-dev-durable-queue'   # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_NAME: 'darksideleasing-demo-durable'   # set this to your function app name on Azure
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './DarksideLeasing.App.Queue'       # set this to the path to your function app project, defaults to the repository root
   DOTNET_VERSION: '8.0'                   # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
 
@@ -37,10 +37,10 @@ jobs:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@v4
 
-    - name: Login to Azure
-      uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - name: Login to Azure
+    #   uses: azure/login@v1
+    #   with:
+    #       creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v4

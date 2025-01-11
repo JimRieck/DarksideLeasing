@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  login_to_azure:
+    uses: ./.github/workflows/login_test.yml
+
   deploy_iac:
     uses: ./.github/workflows/deploy_iac.yml
 
