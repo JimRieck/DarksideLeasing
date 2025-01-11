@@ -10,85 +10,80 @@ provider "azurerm" {
 
 # Resource Group
 resource "azurerm_resource_group" "main" {
-  name     = "darksideleasing-dev-AUSCEN"
-  location = "Australia Central"
+  name     = "darksideleasing-demo"
+  location = "East US"  # Use a global region with high availability
 }
 
-# App Service Plan
+# App Service Plan (Free Tier)
 resource "azurerm_service_plan" "ui" {
-  name                = "darksideleasing-dev-ui-plan"
+  name                = "darksideleasing-demo-plan"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Windows"
-  sku_name            = "B1"  # Change to a different SKU, e.g., Free tier
+  sku_name            = "F1"  # Free tier for demo purposes
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
 
-
 # App Service for Blazor Server UI
 resource "azurerm_windows_web_app" "ui" {
-  name                = "darksideleasing-dev-ui"
+  name                = "darksideleasing-demo-ui"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   service_plan_id     = azurerm_service_plan.ui.id
 
   site_config {
-    always_on = true
+    always_on = false  # Disable Always-On for Free tier compatibility
   }
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
 
-# Serverless SQL Server
+# SQL Server (Lowest-Cost Configurations)
 resource "azurerm_mssql_server" "db" {
-  name                         = "darksideleasing-dev-sql"
+  name                         = "darksideleasing-demo-sql"
   location                     = azurerm_resource_group.main.location
   resource_group_name          = azurerm_resource_group.main.name
   administrator_login          = "sqladmin"
   administrator_login_password = "P@ssw0rd1234!"
-  version                      = "12.0"
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
 
-# Serverless SQL Database
+# SQL Database (Smallest Configurations)
 resource "azurerm_mssql_database" "db" {
-  name                = "darksideleasing-dev-db"
+  name                = "darksideleasing-demo-db"
   server_id           = azurerm_mssql_server.db.id
-  sku_name            = "GP_S_Gen5_2"  # General Purpose, Gen5 with 2 vCores
-  max_size_gb         = 10             # Set a valid maximum size (e.g., 10 GB)
-  min_capacity        = 2  
-  auto_pause_delay_in_minutes = 60     # Set a valid auto pause delay value
+  sku_name            = "Basic"  # Basic tier for minimal cost
+  max_size_gb         = 2        # Smallest size allowed
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
-
 
 # Storage Account for Functions
 resource "azurerm_storage_account" "functions" {
-  name                     = "darksideleasingdevfuncs"
+  name                     = "darksideleasingdemo"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
 
-# HTTP Triggered Azure Function
+# Shared App Service Plan for Azure Functions
 resource "azurerm_function_app" "http_api" {
-  name                       = "darksideleasing-dev-http-api"
+  name                       = "darksideleasing-demo-http"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   app_service_plan_id        = azurerm_service_plan.ui.id
@@ -96,13 +91,12 @@ resource "azurerm_function_app" "http_api" {
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
 
-# Durable Azure Function
 resource "azurerm_function_app" "durable_queue" {
-  name                       = "darksideleasing-dev-durable-queue"
+  name                       = "darksideleasing-demo-durable"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   app_service_plan_id        = azurerm_service_plan.ui.id
@@ -110,6 +104,6 @@ resource "azurerm_function_app" "durable_queue" {
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
 
   tags = {
-    environment = "dev"
+    environment = "demo"
   }
 }
