@@ -2,6 +2,8 @@
 name: Main Workflow
 
 on:
+  push:
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -43,49 +45,74 @@ jobs:
   deploy_api:
     needs: deploy_iac
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Log in to Azure
-        id: azure_login
-        uses: azure/login@v1
-        with:
+    env:
+        AZURE_FUNCTIONAPP_NAME: 'darksideleasing-dev-http'   # set this to your function app name on Azure
+        AZURE_FUNCTIONAPP_PACKAGE_PATH: './DarkSideLeasing.App.Api'       # set this to the path to your function app project, defaults to the repository root
+        DOTNET_VERSION: '8.0'  
+
+    steps:
+     - name: 'Checkout GitHub Action'
+       uses: actions/checkout@v4
+
+     - name: Login to Azure
+       uses: azure/login@v1
+       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Debug Azure Login
-        if: failure()
-        run: |
-          echo "Azure login failed"
-          echo "Credentials: ${{ secrets.AZURE_CREDENTIALS }}"
+     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+       uses: actions/setup-dotnet@v4
+       with:
+         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Verify Azure Login
-        run: az account show
+     - name: 'Resolve Project Dependencies Using Dotnet'
+       shell: pwsh # For Linux, use bash
+       run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
 
-      - name: Deploy API
-        run: echo "Deploying API..." # Replace with actual deployment steps
+     - name: 'Run Azure Functions Action'
+       uses: Azure/functions-action@v1
+       id: fa
+       with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+
 
   deploy_queue:
     needs: deploy_iac
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Log in to Azure
-        id: azure_login
-        uses: azure/login@v1
-        with:
+    env:
+     AZURE_FUNCTIONAPP_NAME: 'darksideleasing-demo-durable'   # set this to your function app name on Azure
+     AZURE_FUNCTIONAPP_PACKAGE_PATH: './DarksideLeasing.App.Queue'       # set this to the path to your function app project, defaults to the repository root
+     DOTNET_VERSION: '8.0'                   # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
+
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Debug Azure Login
-        if: failure()
-        run: |
-          echo "Azure login failed"
-          echo "Credentials: ${{ secrets.AZURE_CREDENTIALS }}"
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Verify Azure Login
-        run: az account show
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh # For Linux, use bash
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
 
-      - name: Deploy Queue
-        run: echo "Deploying Queue..." # Replace with actual deployment steps
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
