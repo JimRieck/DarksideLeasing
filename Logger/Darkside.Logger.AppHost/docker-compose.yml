@@ -1,0 +1,53 @@
+﻿version: "3.8"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqldb
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "myPassword123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  flyway-init:
+    image: flyway/flyway
+    depends_on:
+      - sqlserver
+    volumes:
+      - /c/Code/MyStuff/DarksideLeasing/Logger/flyway/sql/stage1:/flyway/sql
+    entrypoint: sh
+    command: >
+      -c '
+        echo "Waiting for SQL Server..." ;
+        until /flyway/flyway info \
+          -url=jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false;trustServerCertificate=false \
+          -user=sa -password=myPassword123 >/dev/null 2>&1; do
+            echo "SQL Server not ready. Waiting 5s..." ;
+            sleep 5 ;
+        done ;
+        echo "SQL Server is up. Running stage 1 migrations..." ;
+        /flyway/flyway migrate \
+          -url=jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false;trustServerCertificate=false \
+          -user=sa -password=myPassword123 \
+          -locations=filesystem:/flyway/sql \
+          -baselineOnMigrate=true'
+
+  flyway-migrate:
+    image: flyway/flyway
+    depends_on:
+      - flyway-init
+    volumes:
+      - /c/Code/MyStuff/DarksideLeasing/Logger/flyway/sql/stage2:/flyway/sql
+    command: >
+      migrate
+      -url=jdbc:sqlserver://sqlserver:1433;databaseName=Darkside_Logging;encrypt=false;trustServerCertificate=false
+      -user=sa
+      -password=myPassword123
+      -locations=filesystem:/flyway/sql
+      -baselineOnMigrate=true
+
+volumes:
+  sql_data:
