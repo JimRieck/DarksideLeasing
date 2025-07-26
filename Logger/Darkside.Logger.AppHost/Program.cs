@@ -2,6 +2,8 @@ using System.Diagnostics;
 
 RunPowerShellScript(@"C:\Code\MyStuff\DarksideLeasing\Logger\run-flyway.ps1");
 
+//RunDockerCompose();
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 builder.AddAzureFunctionsProject<Projects.Darkside_Logger_API>("darkside-logger-api");

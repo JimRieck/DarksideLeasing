@@ -10,40 +10,46 @@ using Darkside.Logging.Application;
 using Microsoft.Extensions.Configuration;
 using Darkside.Logging.Application.Settings;
 
-var settingsBuilder = new ConfigurationBuilder()
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var settingsBuilder = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
            .AddUserSecrets<Program>(optional: true, reloadOnChange: true);
 
-var config = settingsBuilder.Build();
-var settings = config.Get<AppSettings>();
+        var config = settingsBuilder.Build();
+        var settings = config.Get<AppSettings>();
 
-var builder = FunctionsApplication.CreateBuilder(args);
+        var builder = FunctionsApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+        builder.AddServiceDefaults();
 
-builder.ConfigureFunctionsWebApplication();
+        builder.ConfigureFunctionsWebApplication();
 
-// Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
-// builder.Services
-//     .AddApplicationInsightsTelemetryWorkerService()
-//     .ConfigureFunctionsApplicationInsights();
+        // Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
+        // builder.Services
+        //     .AddApplicationInsightsTelemetryWorkerService()
+        //     .ConfigureFunctionsApplicationInsights();
 
-// Register all validators in the assembly
-builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // No changes needed here
+        // Register all validators in the assembly
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // No changes needed here
 
-// Register MediatR
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        // Register MediatR
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-// Register the validation pipeline behavior
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        // Register the validation pipeline behavior
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-builder.Services.AddDbContext<GPSDocumentGenieDataContext>(options => options.UseSqlServer(settings!.ConnectionStrings.DocumentGenie));
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+        builder.Services.AddDbContext<GPSDocumentGenieDataContext>(options => options.UseSqlServer(settings!.ConnectionStrings.DocumentGenie));
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(CreateLogCommandHandler).Assembly);
-    cfg.RegisterServicesFromAssembly(typeof(GetLogsQueryHandler).Assembly);
-});
+        builder.Services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(CreateLogCommandHandler).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(GetLogsQueryHandler).Assembly);
+        });
 
-builder.Build().Run();
+        builder.Build().Run();
+    }
+}

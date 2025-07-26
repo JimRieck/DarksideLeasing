@@ -11,10 +11,10 @@ namespace Darkside.Logging.Logger.Client
     {
         private readonly ServiceBusClient _client;
         private readonly ServiceBusSender _sender;
-        public LoggingClient(string connectionString, string topicName = "addlog")
+        public LoggingClient(string connectionString, string queueName = "logging")
         {
             _client = new ServiceBusClient(connectionString);
-            _sender = _client.CreateSender(topicName);
+            _sender = _client.CreateSender(queueName);
         }
 
         public async Task AddLoggingToServiceBusAsync(AddLoggingRequest entry)

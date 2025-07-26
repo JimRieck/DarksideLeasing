@@ -1,6 +1,8 @@
-﻿using Darkside.Logging.Datas.Models;
-using Darkside.Logging.Application.Features.Logging.Commands;
+﻿using Darkside.Logging.Application.Features.Logging.Commands;
+using Darkside.Logging.Datas.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 public class CreateLogCommandHandler(GPSDocumentGenieDataContext context) : IRequestHandler<CreateLogCommand, Guid>
 {
@@ -8,21 +10,36 @@ public class CreateLogCommandHandler(GPSDocumentGenieDataContext context) : IReq
 
     public async Task<Guid> Handle(CreateLogCommand request, CancellationToken cancellationToken)
     {
-        var log = new Log
+        try
         {
-            LogLevel = request.LogLevel,
-            Application = request.Application,
-            Module = request.Module,
-            TenantId = request.TenantId,
-            Message = request.Message,
-            Exception = request.Exception,
-            Properties = request.Properties,
-            CreatedBy = "System", 
-            CreatedDate = DateTime.UtcNow
-        };
+            // Set up the database context
 
-        _context.Logs.Add(log);
-        await _context.SaveChangesAsync(cancellationToken);
-        return log.Id;
+            var tenant = _context.Tenants.FirstOrDefault();
+
+            var log = new Log
+            {
+                LogLevel = request.LogLevel,
+                Application = request.Application,
+                Module = request.Module,
+                TenantId = tenant.TenantId,
+                Message = request.Message,
+                Exception = request.Exception,
+                Properties = request.Properties,
+                CreatedBy = "System", 
+                CreatedDate = DateTime.UtcNow
+            };
+
+            _context.Logs.Add(log);
+            var connStr = _context.Database.GetConnectionString();
+            Console.WriteLine($"Connection string is {connStr}");
+            await _context.SaveChangesAsync(cancellationToken);
+            return log.Id;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while handling the CreateLogCommand: {ex.Message}, {ex.InnerException?.Message}");
+        }
+
+        return Guid.Empty;
     }
 }

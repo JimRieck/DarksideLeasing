@@ -7,10 +7,11 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "myPassword123"
+      SA_PASSWORD: "MyStrongP@ssw0rd123!"
       ACCEPT_EULA: "Y"
     volumes:
       - sql_data:/var/opt/mssql
+    restart: unless-stopped
 
   flyway-init:
     image: flyway/flyway
@@ -23,15 +24,15 @@ services:
       -c '
         echo "Waiting for SQL Server..." ;
         until /flyway/flyway info \
-          -url=jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false;trustServerCertificate=false \
-          -user=sa -password=myPassword123 >/dev/null 2>&1; do
+          -url=jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false;trustServerCertificate=true \
+          -user=sa -password=MyStrongP@ssw0rd123! >/dev/null 2>&1; do
             echo "SQL Server not ready. Waiting 5s..." ;
             sleep 5 ;
         done ;
         echo "SQL Server is up. Running stage 1 migrations..." ;
         /flyway/flyway migrate \
-          -url=jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false;trustServerCertificate=false \
-          -user=sa -password=myPassword123 \
+          -url=jdbc:sqlserver://sqlserver:1433;databaseName=master;encrypt=false;trustServerCertificate=true\
+          -user=sa -password=MyStrongP@ssw0rd123! \
           -locations=filesystem:/flyway/sql \
           -baselineOnMigrate=true'
 
@@ -43,9 +44,9 @@ services:
       - /c/Code/MyStuff/DarksideLeasing/Logger/flyway/sql/stage2:/flyway/sql
     command: >
       migrate
-      -url=jdbc:sqlserver://sqlserver:1433;databaseName=Darkside_Logging;encrypt=false;trustServerCertificate=false
+      -url=jdbc:sqlserver://sqlserver:1433;databaseName=Darkside_Logging;encrypt=false;trustServerCertificate=true
       -user=sa
-      -password=myPassword123
+      -password=MyStrongP@ssw0rd123!
       -locations=filesystem:/flyway/sql
       -baselineOnMigrate=true
 
