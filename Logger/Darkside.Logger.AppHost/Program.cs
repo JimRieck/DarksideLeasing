@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-RunPowerShellScript(@"C:\Code\MyStuff\DarksideLeasing\Logger\run-flyway.ps1");
+RunPowerShellScript(@"C:\Code\MyStuff\DarksideLeasing\Logger\run-darkside-logging.ps1");
 
 //RunDockerCompose();
 

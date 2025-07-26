@@ -114,7 +114,7 @@
         var httpRequest = new HttpRequestMessage()
         {
             Method = HttpMethod.Post,
-                RequestUri = new Uri("http://host.docker.internal:30824/api/LeaseMilageCalculator"),
+                RequestUri = new Uri("http://localhost:7009/api/LeaseMilageCalculator"),
                 Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json")
         };
         try
