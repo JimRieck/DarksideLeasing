@@ -31,6 +31,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DarkSideLeasing.App.Api.ServiceDefaults\DarkSideLeasing.App.Api.ServiceDefaults.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Darkside.LeasingCalc.Contracts">
       <HintPath>..\Libs\Darkside.LeasingCalc.Contracts.dll</HintPath>
     </Reference>

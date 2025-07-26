@@ -9,9 +9,11 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Darkside.LeasingCalc.Db", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darkside.LeasingCalc.UI", "Darkside.LeasingCalc.UI\Darkside.LeasingCalc.UI.csproj", "{FB439C69-2C11-487F-8EFF-F3E2CF75331B}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5187C156-6D9F-4B63-99B5-B69FE2D0E741}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarksideLeasing.App.Queue", "DarksideLeasing.App.Queue\DarksideLeasing.App.Queue.csproj", "{6BD64612-ECD5-4E1D-855D-7DAC89283C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSideLeasing.App.Api.AppHost", "DarkSideLeasing.App.Api.AppHost\DarkSideLeasing.App.Api.AppHost.csproj", "{F06D6AF6-FDBB-45F1-BD21-95CA365A0E3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSideLeasing.App.Api.ServiceDefaults", "DarkSideLeasing.App.Api.ServiceDefaults\DarkSideLeasing.App.Api.ServiceDefaults.csproj", "{0D0E6FA7-0B4A-568A-1D28-6082F84DBC36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,16 +35,23 @@ Global
 		{FB439C69-2C11-487F-8EFF-F3E2CF75331B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB439C69-2C11-487F-8EFF-F3E2CF75331B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB439C69-2C11-487F-8EFF-F3E2CF75331B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5187C156-6D9F-4B63-99B5-B69FE2D0E741}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BD64612-ECD5-4E1D-855D-7DAC89283C11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F06D6AF6-FDBB-45F1-BD21-95CA365A0E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F06D6AF6-FDBB-45F1-BD21-95CA365A0E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F06D6AF6-FDBB-45F1-BD21-95CA365A0E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F06D6AF6-FDBB-45F1-BD21-95CA365A0E3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D0E6FA7-0B4A-568A-1D28-6082F84DBC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D0E6FA7-0B4A-568A-1D28-6082F84DBC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D0E6FA7-0B4A-568A-1D28-6082F84DBC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D0E6FA7-0B4A-568A-1D28-6082F84DBC36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19CEC63A-FE8D-4DBE-BA3F-6FF35F6A7285}
 	EndGlobalSection
 EndGlobal
