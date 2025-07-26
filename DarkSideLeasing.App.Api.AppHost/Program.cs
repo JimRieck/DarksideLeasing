@@ -1,6 +1,7 @@
 using System.Diagnostics;
 
 RunPowerShellScript(@"C:\Code\MyStuff\DarksideLeasing\Run-Darkside-Leasing.ps1");
+RunPowerShellScript(@"C:\Code\MyStuff\DarksideLeasing\Logger\run-darkside-logging.ps1");
 
 var builder = DistributedApplication.CreateBuilder(args);
 
