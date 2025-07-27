@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darkside.LeasingCalc.Data",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevverDigital.Common.Data", "RevverDigital.Common.Data\RevverDigital.Common.Data\RevverDigital.Common.Data.csproj", "{EB031C69-EA23-419D-A0F8-A7B594A192F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darkside.Logger.Client", "..\..\Logger\Darkside.Logger.Client\Darkside.Logger.Client.csproj", "{C4F91667-FE1E-6A3B-CCFD-AF9E9815E6F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{EB031C69-EA23-419D-A0F8-A7B594A192F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB031C69-EA23-419D-A0F8-A7B594A192F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB031C69-EA23-419D-A0F8-A7B594A192F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F91667-FE1E-6A3B-CCFD-AF9E9815E6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F91667-FE1E-6A3B-CCFD-AF9E9815E6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F91667-FE1E-6A3B-CCFD-AF9E9815E6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F91667-FE1E-6A3B-CCFD-AF9E9815E6F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

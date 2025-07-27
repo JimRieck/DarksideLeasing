@@ -17,8 +17,6 @@ public partial class Log
 
     public string Module { get; set; }
 
-    public Guid? TenantId { get; set; }
-
     public string Message { get; set; }
 
     public string Exception { get; set; }
@@ -33,5 +31,4 @@ public partial class Log
 
     public string UpdatedBy { get; set; }
 
-    public virtual Tenant Tenant { get; set; }
 }

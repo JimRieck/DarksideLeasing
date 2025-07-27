@@ -14,14 +14,11 @@ public class CreateLogCommandHandler(GPSDocumentGenieDataContext context) : IReq
         {
             // Set up the database context
 
-            var tenant = _context.Tenants.FirstOrDefault();
-
             var log = new Log
             {
                 LogLevel = request.LogLevel,
                 Application = request.Application,
                 Module = request.Module,
-                TenantId = tenant.TenantId,
                 Message = request.Message,
                 Exception = request.Exception,
                 Properties = request.Properties,

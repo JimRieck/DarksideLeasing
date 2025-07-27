@@ -27,6 +27,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Darkside.Logger.Application\Darkside.Logger.Application.csproj" />
     <ProjectReference Include="..\Darkside.Logger.Contracts\Darkside.Logger.Contracts.csproj" />
-    <ProjectReference Include="..\Darkside.Logger.ServiceDefaults\Darkside.Logger.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

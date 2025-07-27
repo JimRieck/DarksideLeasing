@@ -1,6 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Darkside.Logging.Contracts.Requests;
-using Darkside.Logging.Contracts.Responses;
 using Darkside.Logging.Logger.API.Responses;
 using System.Text;
 using System.Text.Json;

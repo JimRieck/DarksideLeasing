@@ -6,7 +6,7 @@ RunPowerShellScript(@"C:\Code\MyStuff\DarksideLeasing\Logger\run-darkside-loggin
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddAzureFunctionsProject<Projects.Darkside_Logger_API>("darkside-logger-api");
+//builder.AddAzureFunctionsProject<Projects.Darkside_Logger_API>("darkside-logger-api");
 
 builder.Build().Run();
 

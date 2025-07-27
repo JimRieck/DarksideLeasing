@@ -25,9 +25,6 @@ public class GetLogsQueryHandler : IRequestHandler<GetLogsQuery, List<Log>>
         if (!string.IsNullOrEmpty(request.Application))
             query = query.Where(l => l.Application == request.Application);
 
-        if (request.TenantId.HasValue)
-            query = query.Where(l => l.TenantId == request.TenantId);
-
         if (request.TotalDays > 0)
             query = query.Where(l => l.Timestamp >= DateTime.UtcNow.AddDays(-request.TotalDays));
 

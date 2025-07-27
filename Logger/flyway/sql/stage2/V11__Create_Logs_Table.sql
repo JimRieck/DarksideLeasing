@@ -28,7 +28,6 @@ CREATE TABLE [dbo].[Logs](
 	[LogLevel] [nvarchar](20) NOT NULL,
 	[Application] [nvarchar](100) NULL,
 	[Module] [nvarchar](100) NULL,
-	[TenantId] [uniqueidentifier] NULL,
 	[Message] [nvarchar](max) NOT NULL,
 	[Exception] [nvarchar](max) NULL,
 	[Properties] [nvarchar](max) NULL,
@@ -49,11 +48,5 @@ GO
 ALTER TABLE [dbo].[Logs] ADD  DEFAULT (sysutcdatetime()) FOR [Timestamp]
 GO
 
-ALTER TABLE [dbo].[Logs]  WITH CHECK ADD  CONSTRAINT [FK_Logs_Tenants] FOREIGN KEY([TenantId])
-REFERENCES [dbo].[Tenants] ([TenantId])
-GO
-
-ALTER TABLE [dbo].[Logs] CHECK CONSTRAINT [FK_Logs_Tenants]
-GO
 
 

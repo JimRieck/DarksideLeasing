@@ -42,18 +42,6 @@ class Program
         var optionsBuilder = new DbContextOptionsBuilder<GPSDocumentGenieDataContext>();
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("DarksideLogging"));
 
-        Guid tenantId;
-        using (var context = new GPSDocumentGenieDataContext(optionsBuilder.Options))
-        {
-            var tenant = await context.Tenants.SingleOrDefaultAsync();
-            if (tenant == null)
-            {
-                Console.WriteLine("No tenant found in the database.");
-                return;
-            }
-            tenantId = tenant.TenantId;
-        }
-
         var loggingClient = new LoggingClient(serviceBusConnectionString);
         var logLevels = new[] { "Info", "Warning", "Error" };
         var random = new Random();
@@ -73,7 +61,6 @@ class Program
                     var logLevel = logLevels[random.Next(logLevels.Length)];
                     var logRequest = new AddLoggingRequest
                     {
-                        TenantId = tenantId,
                         Application = "Darkside Leasing",
                         LogLevel = logLevel,
                         Message = logLevel switch
