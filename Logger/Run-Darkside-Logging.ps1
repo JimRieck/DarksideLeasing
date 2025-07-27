@@ -1,5 +1,5 @@
 ﻿# Define variables
-$containerName = "sqldb"
+$containerName = "darkside_logging_database"
 $saPassword = "MyStrongP@ssw0rd123!"
 $stage1Path = "C:\Code\MyStuff\DarksideLeasing\Logger\flyway\sql\stage1"
 $stage2Path = "C:\Code\MyStuff\DarksideLeasing\Logger\flyway\sql\stage2"
