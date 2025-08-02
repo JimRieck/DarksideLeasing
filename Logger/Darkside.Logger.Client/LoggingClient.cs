@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using Darkside.Logger.Client;
 using Darkside.Logging.Contracts.Requests;
 using Darkside.Logging.Logger.API.Responses;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Text.Json;
 
 namespace Darkside.Logging.Logger.Client
 {
-    public class LoggingClient
+    public class LoggingClient : ILoggingClient
     {
         private readonly ServiceBusClient _client;
         private readonly ServiceBusSender _sender;
@@ -14,6 +15,24 @@ namespace Darkside.Logging.Logger.Client
         {
             _client = new ServiceBusClient(connectionString);
             _sender = _client.CreateSender(queueName);
+        }
+
+        public async Task BuildLogMessageAndSendAsync(string message, string logLevel)
+        {
+            var request = new AddLoggingRequest
+            {
+                Application = "LeasingCalc",
+                LogLevel = logLevel,
+                Message = message,
+                CreatedBy = "LeasingCalcService",
+                CreatedDate = DateTime.Now,
+                Module = "LeasingCalcModule",
+                Exception = logLevel == "Error" ? message : null,
+            };
+
+
+            await AddLoggingToServiceBusAsync(request);
+
         }
 
         public async Task AddLoggingToServiceBusAsync(AddLoggingRequest entry)

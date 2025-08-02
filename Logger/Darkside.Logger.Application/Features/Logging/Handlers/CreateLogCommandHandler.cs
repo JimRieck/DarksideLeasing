@@ -23,12 +23,11 @@ public class CreateLogCommandHandler(GPSDocumentGenieDataContext context) : IReq
                 Exception = request.Exception,
                 Properties = request.Properties,
                 CreatedBy = "System", 
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTime.Now
             };
 
             _context.Logs.Add(log);
-            var connStr = _context.Database.GetConnectionString();
-            Console.WriteLine($"Connection string is {connStr}");
+    
             await _context.SaveChangesAsync(cancellationToken);
             return log.Id;
         }

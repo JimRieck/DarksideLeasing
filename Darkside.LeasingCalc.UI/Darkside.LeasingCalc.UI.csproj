@@ -26,12 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DarkSideLeasing.App.Api.ServiceDefaults\DarkSideLeasing.App.Api.ServiceDefaults.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Darkside.LeasingCalc.Contracts">
-      <HintPath>..\Libs\Darkside.LeasingCalc.Contracts.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Libs\Lib Code\Darkside.LeasingCalc.Contracts\Darkside.LeasingCalc.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

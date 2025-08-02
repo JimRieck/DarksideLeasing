@@ -1,47 +1,65 @@
-using Darkside.LeasingCalc.Core.Configuration;
+﻿using Darkside.LeasingCalc.Core.Configuration;
 using Darkside.LeasingCalc.Core.Repositories;
 using Darkside.LeasingCalc.Core.Service;
 using Darkside.LeasingCalc.Core.Validation;
 using Darkside.LeasingCalc.Data.Models;
+using Darkside.Logger.Client;
+using Darkside.Logging.Logger.Client;
+using DarkSideLeasing.App.Api.Settings;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
-var builder = FunctionsApplication.CreateBuilder(args);
-
-builder.AddServiceDefaults();
-
-builder.ConfigureFunctionsWebApplication();
-
-// Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
-// builder.Services
-//     .AddApplicationInsightsTelemetryWorkerService()
-//     .ConfigureFunctionsApplicationInsights();
-
-//builder.Build().Run();
-var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
-    .ConfigureAppConfiguration((context, configuration) =>
+public class Program
+{
+    public static void Main(string[] args)
     {
-        configuration.SetBasePath(Environment.CurrentDirectory)
-            .AddJsonFile("appsettings.json", true, reloadOnChange: true);
+        // 🔧 Load configuration and secrets
+        var configurationBuilder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddUserSecrets<Program>(optional: true, reloadOnChange: true);
 
-    })
-    .ConfigureServices((hostContext, serviceCollection) =>
-    {
-        serviceCollection.AddAzureAppConfiguration();
-        var settings = new Settings(serviceCollection.BuildServiceProvider().GetRequiredService<IConfiguration>());
+        var config = configurationBuilder.Build();
+        
+        // 🔧 Get strongly typed settings (custom wrapper object if needed)
+        var settings = config.Get<DarkSideLeasing.App.Api.Settings.Settings>();
 
-        //serviceCollection.AddApplicationInsightsTelemetryWorkerService();
-        //serviceCollection.ConfigureFunctionsApplicationInsights();
-        serviceCollection.AddTransient<ILeaseCalculatorService, LeaseMilageCalculatorService>();
-        serviceCollection.AddTransient<ILeaseCalculatorRepository, LeaseCalculatorRepository>();
-        serviceCollection.AddTransient<ICarLeaseRepository, CarLeaseRepository>();
-        serviceCollection.AddTransient<IValidationService, ValidationService>();
-        serviceCollection.AddDbContext<DbContext, DarksideLeasingCalcDbContext>(options => options.UseSqlServer(settings.SqlDbConnectionString), ServiceLifetime.Transient);
-    }).Build();
+        // 🛠 Build Functions Host
+        var builder = FunctionsApplication.CreateBuilder(args);
+        builder.Services.Configure<DarkSideLeasing.App.Api.Settings.Settings>(config);
+        builder.ConfigureFunctionsWebApplication();
 
+        // Optional default service config
+        builder.AddServiceDefaults();
 
-host.Run();
+        // 💾 Register database context
+        builder.Services.AddDbContext<DbContext, DarksideLeasingCalcDbContext>(
+            options => options.UseSqlServer(settings.ConnectionStrings.DarksideLeasing),
+            ServiceLifetime.Transient);
+
+        // 🧠 Register services
+        builder.Services.AddTransient<ILeaseCalculatorService, LeaseMilageCalculatorService>();
+        builder.Services.AddTransient<ILeaseCalculatorRepository, LeaseCalculatorRepository>();
+        builder.Services.AddTransient<ICarLeaseRepository, CarLeaseRepository>();
+        builder.Services.AddTransient<IValidationService, ValidationService>();
+
+        // 🔐 Register LoggingClientOptions and LoggingClient
+        builder.Services.Configure<ServiceBus>(config.GetSection("ConnectionStrings")); // DocumentGenie inside
+        builder.Services.AddTransient<ILoggingClient>(provider =>
+        {
+            var options = provider.GetRequiredService<Microsoft.Extensions.Options.IOptions<ServiceBus>>();
+            return new LoggingClient(settings.ServiceBus.ConnectionString);
+        });
+
+        // 🌩 Azure App Config, optional
+        builder.Services.AddAzureAppConfiguration();
+
+        // 🚀 Run
+        builder.Build().Run();
+    }
+}

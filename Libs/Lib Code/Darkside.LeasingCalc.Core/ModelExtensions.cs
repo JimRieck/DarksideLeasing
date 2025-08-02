@@ -1,6 +1,5 @@
 ﻿using Darkside.LeasingCalc.Contracts.Requests;
 using Darkside.LeasingCalc.Contracts.Response;
-using Darkside.LeasingCalc.Data;
 using Darkside.LeasingCalc.Data.Models;
 using Microsoft.EntityFrameworkCore.Query;
 

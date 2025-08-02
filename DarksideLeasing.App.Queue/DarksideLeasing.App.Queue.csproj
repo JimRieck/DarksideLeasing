@@ -25,18 +25,7 @@
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Darkside.LeasingCalc.Contracts">
-      <HintPath>..\Libs\Darkside.LeasingCalc.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Darkside.LeasingCalc.Core">
-      <HintPath>..\Libs\Darkside.LeasingCalc.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Darkside.LeasingCalc.Data">
-      <HintPath>..\Libs\Darkside.LeasingCalc.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="RevverDigital.Common.Data">
-      <HintPath>..\Libs\RevverDigital.Common.Data.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Libs\Lib Code\Darkside.LeasingCalc.Contracts\Darkside.LeasingCalc.Contracts.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
