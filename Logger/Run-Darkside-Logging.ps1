@@ -21,7 +21,7 @@ docker run -d --name $containerName `
     mcr.microsoft.com/mssql/server:2022-latest
 
 Write-Host "Waiting for SQL Server to be ready..."
-Start-Sleep -Seconds 10
+Start-Sleep -Seconds 6
 
 # OPTIONAL: Confirm password works
 Write-Host "🔍 Testing SQL Server SA login..."

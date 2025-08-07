@@ -45,9 +45,9 @@ public class LeaseMilageCalculatorService : ILeaseCalculatorService
             await _loggingClient.BuildLogMessageAndSendAsync($"Searching for CarNumber: {request.CarNumber}", "Information");
             var (foundCar, car) = await FindCarNumber(request);
             var carLeaseId = new Guid();
-            if (!foundCar)
+            if (foundCar)
             {
-                await _loggingClient.BuildLogMessageAndSendAsync($"Car was not found!  will add it now", "Information");
+                await _loggingClient.BuildLogMessageAndSendAsync($"Car was found!  will add it now", "Information");
                 carLeaseId = car.Id;
                 await _loggingClient.BuildLogMessageAndSendAsync($"Calculating daily milage for # {request.CarNumber} ", "Information");
                 var mileageDetails = await CalculateDailyMiles(request);
@@ -56,7 +56,7 @@ public class LeaseMilageCalculatorService : ILeaseCalculatorService
             }
             else
             {
-                await _loggingClient.BuildLogMessageAndSendAsync($"Car was not found!  will add it now", "Information");
+                await _loggingClient.BuildLogMessageAndSendAsync($"Car was found!  will fetch its details now", "Information");
             }
 
             var carLeaseDetails = await _carLeaseRepository.GetByIdAsync(carLeaseId);
