@@ -31,6 +31,7 @@ public class AddLog
                 throw new InvalidOperationException("Invalid log message payload");
             var command = _mapper.Map<CreateLogCommand>(request);
             var logId = await _mediator.Send(command);
+            
             // No manual message completion needed for QueueTrigger
         }
         catch (Exception ex)

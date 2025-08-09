@@ -46,7 +46,7 @@ class Program
         // Set up the database context
         var optionsBuilder = new DbContextOptionsBuilder<GPSDocumentGenieDataContext>();
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("DarksideLogging"));
-
+        var counter = 0;
         // Initialize the logging client and other required variables
         var loggingClient = new LoggingClient(serviceBusConnectionString);
         var logLevels = new[] { "Info", "Warning", "Error" };
@@ -57,61 +57,60 @@ class Program
 
         Console.WriteLine("Starting the test...");
 
-        for (int i = 0; i < numberOfRequests; i++)
+        var tasks = Enumerable.Range(0, numberOfRequests).Select(async i =>
         {
             // Wait for a semaphore slot to become available
             await semaphore.WaitAsync();
-
-            _ = Task.Run(async () =>
+            
+            try
             {
+                // Randomly select a log level and create a log request
+                var logLevel = logLevels[random.Next(logLevels.Length)];
+                var logRequest = new AddLoggingRequest
+                {
+                    Application = "Darkside Leasing",
+                    LogLevel = logLevel,
+                    Message = logLevel switch
+                    {
+                        "Info" => "The Force is strong with this one.",
+                        "Warning" => "I find your lack of faith disturbing.",
+                        "Error" => "The Death Star has been destroyed!",
+                        _ => "There is a great disturbance in the force.  A new jedi has come to save the rebels.  We must destroy him.."
+                    },
+                    Exception = logLevel == "Error" ? "Darth Vader encountered an unexpected error while using the Force." : null,
+                    CreatedBy = "DarksideLogger",
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedBy = "DarksideLogger",
+                    UpdatedDate = DateTime.UtcNow,
+                    Module = "StarWarsModule",
+                    Properties = "{\"Key\":\"Value\"}"
+                };
+
                 try
                 {
-                    // Randomly select a log level and create a log request
-                    var logLevel = logLevels[random.Next(logLevels.Length)];
-                    var logRequest = new AddLoggingRequest
-                    {
-                        Application = "Darkside Leasing",
-                        LogLevel = logLevel,
-                        Message = logLevel switch
-                        {
-                            "Info" => "The Force is strong with this one.",
-                            "Warning" => "I find your lack of faith disturbing.",
-                            "Error" => "The Death Star has been destroyed!",
-                            _ => "There is a great disturbance in the force.  A new jedi has come to save the rebels.  We must destroy him.."
-                        },
-                        Exception = logLevel == "Error" ? "Darth Vader encountered an unexpected error while using the Force." : null,
-                        CreatedBy = "DarksideLogger",
-                        CreatedDate = DateTime.UtcNow,
-                        UpdatedBy = "DarksideLogger",
-                        UpdatedDate = DateTime.UtcNow,
-                        Module = "StarWarsModule",
-                        Properties = "{\"Key\":\"Value\"}"
-                    };
-
-                    try
-                    {
-                        // Send the log request to the Service Bus
-                        await loggingClient.AddLoggingToServiceBusAsync(logRequest);
-                        Console.WriteLine($"Log message with level '{logLevel}' successfully added to the Service Bus queue.");
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle any errors that occur while sending the log request
-                        Console.WriteLine($"An error occurred: {ex.Message}");
-                    }
+                    // Send the log request to the Service Bus
+                    await loggingClient.AddLoggingToServiceBusAsync(logRequest);
+                    Console.WriteLine($"Log message {Interlocked.Increment(ref counter)} with level '{logLevel}' successfully added to the Service Bus queue.");
                 }
                 catch (Exception ex)
                 {
-                    // Handle any unexpected errors
-                    Console.WriteLine($"Error: {ex.Message}");
+                    // Handle any errors that occur while sending the log request
+                    Console.WriteLine($"An error occurred: {ex.Message}");
                 }
-                finally
-                {
-                    // Release the semaphore slot
-                    semaphore.Release();
-                }
-            });
-        }
+            }
+            catch (Exception ex)
+            {
+                // Handle any unexpected errors
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                // Release the semaphore slot
+                semaphore.Release();
+            }
+        }).ToList();
+
+        await Task.WhenAll(tasks);
 
         Console.WriteLine("Test completed.");
     }
